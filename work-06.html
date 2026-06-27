@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>work 06 — sieuncha</title>
+<title>dip&spread festival — sieun</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -53,6 +53,9 @@
   .gallery .img{width:100%;background:#f4f3f0;display:flex;align-items:center;justify-content:center;color:#cbc8c1;font-size:11px;text-transform:uppercase;min-height:120px;}
   
   .gallery .img img{width:100%;height:auto;display:block;}
+  .gallery .row{display:grid;grid-template-columns:1fr 1fr;gap:clamp(.8rem,2vw,1.4rem);}
+  .gallery .row img{width:100%;height:auto;display:block;}
+  @media(max-width:540px){ .gallery .row{grid-template-columns:1fr;} }
 
   .navfoot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;padding:1.4rem 0 2.5rem;font-size:11px;text-transform:uppercase;}
   .navfoot a{color:var(--dim);transition:color .2s;} .navfoot a:hover{color:var(--fg);}
@@ -69,7 +72,7 @@
 
   <div class="statusbar">
     <button class="menu-btn" id="menuBtn" aria-label="menu"><span></span><span></span><span></span></button>
-    <div class="nm"><a href="index.html">sieuncha</a> · work 06</div>
+    <div class="nm"><a href="index.html">sieun</a> · dip&spread festival</div>
   </div>
 
   <div class="overlay" id="overlay"></div>
@@ -89,25 +92,33 @@
   </nav>
 
   <article class="head">
-    <div class="cat">web — 2024</div>
-    <h1>작품 제목</h1>
+    <div class="cat">branding — 2026</div>
+    <h1>dip&spread festival</h1>
   </article>
 
   <div class="specs">
-    <div class="s"><div class="k">year</div><div class="v">2024</div></div>
-    <div class="s"><div class="k">category</div><div class="v">web</div></div>
+    <div class="s"><div class="k">year</div><div class="v">2026</div></div>
+    <div class="s"><div class="k">category</div><div class="v">branding</div></div>
     <div class="s"><div class="k">client</div><div class="v">Personal</div></div>
   </div>
 
   <div class="gallery">
-    <div class="img">image 01</div>
-    <div class="img">image 02</div>
-    <div class="img tall">image 03</div>
+    <img src="media/bd1.jpg" alt="dip&spread festival branding 01">
+    <img src="media/bd2.jpg" alt="dip&spread festival branding 02">
+    <div class="row">
+      <img src="media/bd3.jpg" alt="dip&spread festival branding 03">
+      <img src="media/bd4.jpg" alt="dip&spread festival branding 04">
+    </div>
+    <img src="media/bd5.jpg" alt="dip&spread festival branding 05">
+    <div class="row">
+      <img src="media/bd6.jpg" alt="dip&spread festival branding 06">
+      <img src="media/bd7.jpg" alt="dip&spread festival branding 07">
+    </div>
   </div>
 
   
   <div class="piece-info">
-    <p class="desc">여기에 작품 설명을 적어주세요. 프로젝트의 배경, 컨셉, 작업 과정 등을 자유롭게 서술할 수 있습니다.</p>
+    <p class="desc">디핑소스와 스프레드를 주제로 한 푸드 페스티벌 '딥앤(Dip&)' 브랜딩. 상업적이거나 전문성을 내세우는 행사가 아니라, 평소 구하기 어려운 다양한 소스를 한자리에 모아 누구나 가볍게 찍어 먹고 나누는 친근한 페스티벌을 지향한다. 손으로 집어 소스에 찍어 먹는 핑거푸드 문화의 격식 없고 공유적인 속성을 핵심 정서로 삼아, 소스의 묽은 질감을 활용한 타이포 엠블럼, 찍어 먹는 행위를 담은 손가락 그래픽, 맛별 컬러 패턴(간장·녹차·꿀·칠리소스)을 모듈 시스템으로 구축했다. 워드마크·시그니처·컬러 팔레트부터 입장 팔찌, 손가락 모양 테이스팅 스푼, 명찰, 티셔츠, 냅킨·종이컵, 배너까지 적용물 전반을 아우르는 아이덴티티 시스템.</p>
   </div>
 
   <div class="navfoot">
