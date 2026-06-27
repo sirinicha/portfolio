@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>sieuncha — visual designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --bg:#ffffff; --fg:#111111; --dim:#8e8b84; --line:#ededed; --pad:clamp(2rem,7vw,6rem); --side:0px; }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--fg);font-family:'Pretendard',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--fg);color:var(--bg);}
+
+  .shell{display:flex;min-height:100vh;}
+  .side{width:var(--side);flex:0 0 var(--side);overflow:hidden;transition:width .4s cubic-bezier(.4,0,.2,1),flex-basis .4s cubic-bezier(.4,0,.2,1);white-space:nowrap;}
+  body.menu-open{ --side:300px; }
+  @media(max-width:640px){ body.menu-open{ --side:78vw; } }
+  .side-inner{width:300px;padding:1.4rem 1.5rem;}
+  @media(max-width:640px){ .side-inner{width:78vw;} }
+  .side .stop{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.4rem;font-size:10px;text-transform:uppercase;color:var(--dim);}
+  .side .close{background:none;border:none;font-family:inherit;font-size:14px;cursor:pointer;color:var(--fg);}
+  .ygroup{}
+  .yhead{width:100%;background:none;border:none;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:.6rem;padding:.7rem 0;font-size:1.2rem;font-weight:500;color:var(--fg);}
+  .yhead .cnt{font-size:10px;color:var(--dim);font-weight:400;}
+  .yhead .arw{margin-left:auto;font-size:.9rem;color:var(--dim);transition:transform .25s;}
+  .ygroup.open .yhead .arw{transform:rotate(45deg);}
+  .ylist{max-height:0;overflow:hidden;transition:max-height .35s ease;}
+  .ygroup.open .ylist{max-height:500px;}
+  .wk{display:block;padding:.4rem 0 .4rem .9rem;font-size:12px;color:var(--dim);transition:padding-left .2s,color .2s;white-space:normal;}
+  .wk:hover{padding-left:1.4rem;color:var(--fg);}
+
+  .main{flex:1;min-width:0;padding:0 var(--pad);display:flex;flex-direction:column;min-height:100vh;}
+
+  .statusbar{display:flex;justify-content:space-between;align-items:center;padding:1.4rem 0;font-size:10px;color:var(--dim);text-transform:uppercase;}
+  .menu-btn{background:none;border:none;cursor:pointer;padding:6px;display:flex;flex-direction:column;gap:4px;margin-left:-6px;}
+  .menu-btn span{display:block;width:20px;height:1.5px;background:var(--fg);transition:.25s;}
+
+  /* top : name only */
+  .namerow{padding:clamp(1.5rem,4vw,2.5rem) 0 clamp(2.5rem,6vw,4rem);}
+  .namerow .nb{font-size:clamp(1.2rem,3.2vw,1.8rem);font-weight:500;}
+  .namerow .ns{margin-top:.4rem;font-size:10px;text-transform:uppercase;color:var(--dim);}
+
+  /* tabs : works / cv */
+  .tabs{display:flex;gap:1.6rem;padding:.5rem 0 clamp(2rem,5vw,3rem);font-size:12px;text-transform:uppercase;}
+  .tabs button{background:none;border:none;font-family:inherit;cursor:pointer;color:var(--dim);padding:0;font-size:inherit;}
+  .tabs button.on{color:var(--fg);}
+
+  .content{flex:1;}
+
+  /* grid : laptop 4, mobile 2 */
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);column-gap:clamp(1.5rem,4vw,3rem);row-gap:clamp(2.5rem,5vw,4rem);padding-bottom:clamp(3rem,7vw,5rem);}
+  @media(min-width:1024px){ .grid{grid-template-columns:repeat(4,1fr);} }
+  .item{display:flex;flex-direction:column;align-items:center;text-align:center;}
+  .item .num{font-size:11px;color:var(--dim);margin-bottom:.6rem;display:block;align-self:flex-start;}
+  .item .thumb{position:relative;width:clamp(110px,80%,180px);aspect-ratio:1/1;overflow:hidden;background:#f4f3f0;}
+  .item .thumb .fill{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:#cbc8c1;user-select:none;}
+  .item .thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.2,.8,.2,1);}
+  .item:hover .thumb img{transform:scale(1.05);}
+  .item .cap{margin-top:.7rem;font-size:11px;color:var(--dim);opacity:0;transition:opacity .25s;}
+  .item:hover .cap{opacity:1;}
+
+  /* cv panel */
+  #cvPanel{display:none;}
+  .cv{max-width:760px;padding-bottom:clamp(3rem,7vw,5rem);}
+  .cv section{padding:1.3rem 0;display:grid;grid-template-columns:150px 1fr;gap:1rem;}
+  @media(max-width:640px){ .cv section{grid-template-columns:1fr;gap:.6rem;} }
+  .cv .h{font-size:11px;text-transform:uppercase;color:var(--dim);padding-top:.2rem;}
+  .cv ul{list-style:none;display:flex;flex-direction:column;gap:.7rem;}
+  .cv li{font-size:14px;line-height:1.5;display:flex;gap:.7rem;}
+  .cv li .yr{color:var(--dim);flex:0 0 auto;min-width:42px;}
+  .cv li .tx{color:var(--fg);}
+
+  /* detail area (레이어가 아니라 영역으로 — 메인이 밀려남) */
+  .detail{flex:0 0 0;width:0;overflow:hidden;height:100vh;position:sticky;top:0;background:var(--bg);border-left:1px solid var(--line);transition:flex-basis .4s cubic-bezier(.4,0,.2,1),width .4s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;}
+  body.detail-open .detail{flex-basis:min(640px,50vw);width:min(640px,50vw);}
+  @media(max-width:900px){ body.detail-open .detail{flex-basis:100vw;width:100vw;} }
+  .detail .dbar{display:flex;justify-content:space-between;align-items:center;padding:1rem 1.4rem;border-bottom:1px solid var(--line);font-size:10px;text-transform:uppercase;color:var(--dim);flex:0 0 auto;white-space:nowrap;}
+  .detail .dbar .dclose{background:none;border:none;font-family:inherit;font-size:18px;cursor:pointer;color:var(--fg);line-height:1;}
+  .detail iframe{flex:1;width:100%;border:none;}
+
+  /* footer info */
+  footer{padding:1.6rem 0 2.5rem;font-size:13px;color:#555;display:flex;flex-wrap:wrap;gap:.5rem 2.4rem;}
+  footer .f span{text-transform:uppercase;font-size:10px;margin-right:.6rem;color:#999;}
+  footer .f a:hover{color:var(--fg);}
+</style>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+</head>
+<body>
+<div class="shell">
+
+  <aside class="side">
+    <div class="side-inner">
+      <div class="stop"><span>index — by year</span><button class="close" id="closeBtn">×</button></div>
+      <div class="ygroup"><button class="yhead">2026 <span class="cnt">[1]</span><span class="arw">+</span></button>
+        <div class="ylist"><a class="wk" href="work-01.html">작품 제목 A</a></div></div>
+      <div class="ygroup"><button class="yhead">2025 <span class="cnt">[3]</span><span class="arw">+</span></button>
+        <div class="ylist"><a class="wk" href="work-02.html">작품 제목 B</a><a class="wk" href="work-03.html">작품 제목 C</a><a class="wk" href="work-04.html">작품 제목 D</a></div></div>
+      <div class="ygroup"><button class="yhead">2024 <span class="cnt">[4]</span><span class="arw">+</span></button>
+        <div class="ylist"><a class="wk" href="work-05.html">작품 제목 E</a><a class="wk" href="work-06.html">작품 제목 F</a><a class="wk" href="work-07.html">작품 제목 G</a><a class="wk" href="work-08.html">작품 제목 H</a></div></div>
+      <div class="ygroup"><button class="yhead">2023 <span class="cnt">[2]</span><span class="arw">+</span></button>
+        <div class="ylist"><a class="wk" href="work-09.html">작품 제목 I</a><a class="wk" href="work-10.html">작품 제목 J</a></div></div>
+      <div class="ygroup"><button class="yhead">2022 <span class="cnt">[1]</span><span class="arw">+</span></button>
+        <div class="ylist"><a class="wk" href="work-01.html">작품 제목 K</a></div></div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="statusbar">
+      <button class="menu-btn" id="menuBtn" aria-label="menu"><span></span><span></span><span></span></button>
+      <div>seoul / kr · 2026</div>
+    </div>
+
+    <div class="namerow">
+      <div class="nb">차시은 / SHIEUN CHA</div>
+      <div class="ns">visual designer · 시각디자이너</div>
+    </div>
+
+    <div class="tabs">
+      <button id="tabWorks" class="on">works</button>
+      <button id="tabCv">cv</button>
+    </div>
+
+    <div class="content">
+      <!-- WORKS -->
+      <div id="worksPanel">
+        <div class="grid">
+          <a class="item" href="work-01.html">
+            <span class="num">01.</span>
+            <div class="thumb">
+              <img src="media/imagemaking1.jpg" alt="구조와 스킨">
+            </div>
+            <div class="cap">구조와 스킨 · 2025</div>
+          </a>
+
+          <a class="item" href="work-02.html">
+            <span class="num">02.</span>
+            <div class="thumb">
+              <img src="media/GDoM1_1.jpg" alt="망가진 패턴들">
+            </div>
+            <div class="cap">망가진 패턴들 · 2026</div>
+          </a>
+          <a class="item" href="work-03.html">
+            <span class="num">03.</span>
+            <div class="thumb"> <img src="media/stillimage.jpg" alt="stillimage"></div><div class="cap">보이지 않는 면 들여다보기 · 2026</div></a>
+          <a class="item" href="work-04.html"><span class="num">04.</span><div class="thumb"><img src="media/flashcards1._1jpg.jpg" alt="flashcards1">
+          </div><div class="cap">mixmatch 낱말카드 시리즈1 · 2026</div></a>
+          <a class="item" href="work-05.html">
+            <span class="num">05.</span>
+            <div class="thumb"><img src="media/web1.png" alt="web1"></div><div class="cap">avant garde font web · 2026</div></a>
+          <a class="item" href="work-06.html"><span class="num">06.</span><div class="thumb"><div class="fill">[ ... ]</div></div><div class="cap">작품 제목 · 2024</div></a>
+          <a class="item" href="work-07.html"><span class="num">07.</span><div class="thumb"><div class="fill">[ === ]</div></div><div class="cap">작품 제목 · 2024</div></a>
+          <a class="item" href="work-08.html"><span class="num">08.</span><div class="thumb"><div class="fill">[ *** ]</div></div><div class="cap">작품 제목 · 2024</div></a>
+          <a class="item" href="work-09.html"><span class="num">09.</span><div class="thumb"><div class="fill">[ %%% ]</div></div><div class="cap">작품 제목 · 2023</div></a>
+          <a class="item" href="work-10.html"><span class="num">10.</span><div class="thumb"><div class="fill">[ &amp;&amp;&amp; ]</div></div><div class="cap">작품 제목 · 2023</div></a>
+        </div>
+      </div>
+
+      <!-- CV -->
+      <div id="cvPanel">
+        <div class="cv">
+          <section>
+            <div class="h">학력 / education</div>
+            <ul>
+              <li><span class="yr">2022–</span><span class="tx">국민대학교 시각디자인학과 재학</span></li>
+            </ul>
+          </section>
+          <section>
+            <div class="h">단체전 / group show</div>
+            <ul>
+              <li><span class="yr">2025</span><span class="tx">학생회 회고전, 국민대학교</span></li>
+              <li><span class="yr">2025</span><span class="tx">제18회 국민대학교 조형전 Through X</span></li>
+              <li><span class="yr">2023</span><span class="tx">KAKmusik, 조형갤러리 / SK innovation 행복그린전, DDP</span></li>
+              <li><span class="yr">2022</span><span class="tx">제17회 국민대학교 조형전 Linking Timeline</span></li>
+            </ul>
+          </section>
+          <section>
+            <div class="h">프로젝트 / project</div>
+            <ul>
+              <li><span class="yr">2024</span><span class="tx">영화 '용가리빵' (허제인 감독) 미술감독</span></li>
+              <li><span class="yr">2024</span><span class="tx">삼일교회 'Treasure Hunter' 포스터·팜플렛 디자인</span></li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="f"><span>tel</span><a href="tel:01026131597">010-2613-1597</a></div>
+      <div class="f"><span>instagram</span><a href="https://instagram.com/sirin._cha" target="_blank" rel="noopener">@sirin._cha</a></div>
+      <div class="f"><span>email</span><a href="mailto:vobissieun@gmail.com">vobissieun@gmail.com</a></div>
+    </footer>
+  </div>
+
+  <aside class="detail" id="detail">
+    <div class="dbar"><span id="detailLabel">work</span><button class="dclose" id="detailClose">×</button></div>
+    <iframe id="detailFrame" src="about:blank" title="work"></iframe>
+  </aside>
+
+</div>
+
+<script>
+  const body=document.body;
+  document.getElementById('menuBtn').onclick=()=>body.classList.toggle('menu-open');
+  document.getElementById('closeBtn').onclick=()=>body.classList.remove('menu-open');
+  document.querySelectorAll('.yhead').forEach(function(b){
+    b.addEventListener('click',function(){ b.parentElement.classList.toggle('open'); });
+  });
+  const tw=document.getElementById('tabWorks'),tc=document.getElementById('tabCv');
+  const wp=document.getElementById('worksPanel'),cp=document.getElementById('cvPanel');
+  tw.onclick=()=>{tw.classList.add('on');tc.classList.remove('on');wp.style.display='block';cp.style.display='none';};
+  tc.onclick=()=>{tc.classList.add('on');tw.classList.remove('on');cp.style.display='block';wp.style.display='none';};
+
+  // 오른쪽 영역에 작품 페이지 열기
+  const detail=document.getElementById('detail'),
+        detailFrame=document.getElementById('detailFrame'),detailLabel=document.getElementById('detailLabel');
+  function openDetail(href,label){
+    detailFrame.src=href;
+    detailLabel.textContent=label||'work';
+    body.classList.add('detail-open');
+  }
+  function closeDetail(){
+    body.classList.remove('detail-open');
+    setTimeout(()=>{ if(!body.classList.contains('detail-open')) detailFrame.src='about:blank'; },400);
+  }
+  document.getElementById('detailClose').onclick=closeDetail;
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeDetail(); });
+
+  // 그리드 항목 클릭 → 새 페이지 대신 패널
+  document.querySelectorAll('.grid .item').forEach(function(a){
+    a.addEventListener('click',function(e){
+      e.preventDefault();
+      const cap=a.querySelector('.cap');
+      openDetail(a.getAttribute('href'),cap?cap.textContent.trim():'work');
+    });
+  });
+  // 사이드 인덱스 링크도 패널로
+  document.querySelectorAll('.side .wk').forEach(function(a){
+    a.addEventListener('click',function(e){
+      e.preventDefault();
+      openDetail(a.getAttribute('href'),a.textContent.trim());
+      body.classList.remove('menu-open');
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ligature</title>
+<link rel="stylesheet" href="https://use.typekit.net/hpw4jxx.css">
+<style>
+  /* Genuine ITC Avant Garde Gothic Pro via Adobe Fonts (Typekit).
+     Bold = weight 700, the heavy display cut in the comp. The signature
+     diagonal interlock ligatures aren't separate glyphs in the Pro family,
+     so they're reproduced by interlocking the glyph pair on tap. We also
+     enable any OpenType ligatures the font does carry. */
+  @import url('https://use.typekit.net/hpw4jxx.css');
+
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;overflow:hidden;}
+  body{
+    font-family:"itc-avant-garde-gothic-pro",sans-serif;
+    font-weight:700;
+    display:flex;align-items:center;justify-content:center;
+    -webkit-user-select:none;user-select:none;
+    touch-action:manipulation;
+  }
+
+  #stage{
+    width:100%;max-width:1100px;height:100%;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:6px 10px;gap:0;
+    text-align:center;
+  }
+
+  .line{
+    display:block;
+    line-height:0.84;            /* very tight — lines almost touch */
+    letter-spacing:-0.01em;
+    white-space:nowrap;
+  }
+
+  /* default plain glyphs; variant features are applied inline by JS so
+     each tappable unit can CYCLE through all its alternate forms. */
+  .glyph{
+    font-feature-settings:"liga" 0,"dlig" 0,"clig" 0,"calt" 0,"salt" 0,
+      "ss01" 0,"ss02" 0,"ss03" 0,"ss04" 0,"ss05" 0,"titl" 0,"hist" 0,"swsh" 0;
+  }
+  .alt{ cursor:pointer; }
+</style>
+</head>
+<body>
+  <div id="stage"></div>
+
+<script>
+/* ============================================================
+   Content laid out like the InDesign comp: centered, stacked,
+   weighty caps. Each "block" is a chunk of the title.
+   Ligature pairs (Avant Garde's signature interlocks) are marked
+   and become tappable; tapping toggles the overlapped form.
+   ============================================================ */
+
+// Avant Garde Gothic's well-known ligature/interlock pairs (caps).
+// We treat these specific adjacent pairs as ligature-capable.
+const LIG_PAIRS = new Set([
+  'LA','RA','ST','TE','NK','AN','RD','OO','GY','OF','ME','HE',
+  'TH','ND','OR','GA','NI','ZA','DI','ES','AU','TO','EN','NN','GI','HA','MA','VE','RI','CH'
+]);
+
+// the title content as ordered lines (caps), matching the comp
+const LINES = [
+  "MARIA-LAURA TORALDO",
+  "&JEANNE MENGIS",
+  "",            // gap
+  "CHAIR",
+  "",            // gap
+  "THE OXFORD",
+  "HANDBOOK OF MEDIA,",
+  "TECHNOLOGY,",
+  "AND ORGANIZATION",
+  "STUDIES"
+];
+
+const stage = document.getElementById('stage');
+
+/* responsive base size: fill almost edge-to-edge.
+   constrained by BOTH width (longest line) and height (total lines),
+   so the type is as big as possible while leaving only a tiny margin —
+   a margin still a bit larger than the line gap / leading. */
+function computeFontSize(){
+  const w = Math.min(window.innerWidth, 1100) - 20; // tiny side padding
+  const h = window.innerHeight - 12;                // tiny top/bottom padding
+
+  // width constraint: longest line of caps
+  const longest = LINES.reduce((m,l)=>Math.max(m,l.length),0);
+  const fsByWidth = w / (longest*0.60);
+
+  // height constraint: text lines at line-height 0.84 + gaps (0.28 each)
+  const textLines = LINES.filter(l=>l!=='').length;
+  const gaps = LINES.filter(l=>l==='').length;
+  const heightUnits = textLines*0.84 + gaps*0.28;
+  const fsByHeight = h / heightUnits;
+
+  let fs = Math.min(fsByWidth, fsByHeight);
+  fs = Math.max(20, Math.min(fs, 220));
+  return fs;
+}
+
+/* Variant cycles. Each entry is a font-feature-settings string. Clicking a
+   unit advances to the next variant, showing ALL forms in turn, then loops
+   back to default. Single letters cycle stylistic alternates + sets; a
+   ligature run also includes the ligature step at the end. */
+const BASE_OFF = '"liga" 0,"dlig" 0,"clig" 0,"calt" 0,"salt" 0,'+
+  '"ss01" 0,"ss02" 0,"ss03" 0,"ss04" 0,"ss05" 0,"titl" 0,"hist" 0,"swsh" 0';
+
+// alternate forms a single glyph can take (each shown one at a time)
+const ALT_STEPS = [
+  '"salt" 1',
+  '"ss01" 1',
+  '"ss02" 1',
+  '"ss03" 1',
+  '"ss04" 1',
+  '"ss05" 1',
+  '"swsh" 1',
+  '"titl" 1',
+];
+// ligature step (for runs): turn on all ligature features
+const LIG_STEP = '"liga" 1,"dlig" 1,"clig" 1';
+
+function makeCycle(isLigRun){
+  // step 0 = default (all off); then each alternate; ligature last (if run)
+  const steps = [ BASE_OFF ];
+  for(const s of ALT_STEPS) steps.push(BASE_OFF + ',' + s);
+  if(isLigRun) steps.push(BASE_OFF + ',' + LIG_STEP);
+  return steps;
+}
+
+/* Measure a string under a given feature setting to detect whether a
+   variant actually changes the glyph; identical-width variants are
+   dropped so every tap produces a visible change (no dead taps). */
+let _meas;
+function measureVariant(text, feat, fontPx){
+  if(!_meas){
+    _meas = document.createElement('span');
+    _meas.style.cssText='position:absolute;visibility:hidden;white-space:nowrap;'+
+      'left:-9999px;top:-9999px;font-family:"itc-avant-garde-gothic-pro",sans-serif;font-weight:700;';
+    document.body.appendChild(_meas);
+  }
+  _meas.style.fontSize = fontPx+'px';
+  _meas.style.fontFeatureSettings = feat;
+  _meas.textContent = text;
+  return _meas.getBoundingClientRect().width;
+}
+function dedupeSteps(text, steps, fontPx){
+  const out=[]; const seen=new Set();
+  for(const f of steps){
+    const w = Math.round(measureVariant(text, f, fontPx));
+    // keep default always; keep others only if width differs from all kept
+    if(out.length===0 || !seen.has(w)){ out.push(f); seen.add(w); }
+  }
+  return out;
+}
+
+/* Detect whether an adjacent CAP pair forms a REAL ligature in the font:
+   the pair with dlig+liga on is narrower than with them off (glyphs merged). */
+function pairLigates(pairText, fontPx){
+  const off = measureVariant(pairText, BASE_OFF, fontPx);
+  const on  = measureVariant(pairText, BASE_OFF+','+LIG_STEP, fontPx);
+  return (off - on) > 1.5;
+}
+
+/* Build a line. EVERY letter is its own independent unit cycling its
+   alternates. EXCEPTION: an adjacent cap pair that forms a GENUINE
+   ligature is kept as one 2-char span (a real OpenType ligature needs both
+   glyphs in one run), so clicking it flips both together. No longer runs,
+   nothing else grouped. */
+function buildLine(text){
+  const line = document.createElement('div');
+  line.className = 'line';
+  const chars = [...text];
+  let i = 0;
+  while(i < chars.length){
+    const c = chars[i];
+    const nxt = chars[i+1];
+    const pair = (c&&nxt) ? c+nxt : '';
+    const bothCaps = /[A-Z]/.test(c||'') && /[A-Z]/.test(nxt||'');
+    if(bothCaps && LIG_PAIRS.has(pair) && pairLigates(pair, curFontPx)){
+      // genuine ligature pair -> one span (exception)
+      const g = document.createElement('span');
+      g.className = 'glyph alt';
+      g.textContent = pair;
+      g._cycle = dedupeSteps(pair, makeCycle(true), curFontPx);
+      g._step = 0;
+      g.addEventListener('click',()=>cycleAlt(g));
+      line.appendChild(g);
+      i += 2;
+    } else if(/[A-Za-z]/.test(c)){
+      // independent single letter
+      const g = document.createElement('span');
+      g.className = 'glyph alt';
+      g.textContent = c;
+      g._cycle = dedupeSteps(c, makeCycle(false), curFontPx);
+      g._step = 0;
+      g.addEventListener('click',()=>cycleAlt(g));
+      line.appendChild(g);
+      i += 1;
+    } else {
+      const g = document.createElement('span');
+      g.className = 'glyph';
+      g.textContent = c === ' ' ? '\u00A0' : c;
+      // pull punctuation (comma, etc.) tight against the previous letter
+      if(/[,.;:!?]/.test(c)) g.style.marginLeft = '-0.12em';
+      line.appendChild(g);
+      i += 1;
+    }
+  }
+  return line;
+}
+
+let curFontPx = 40;
+function render(){
+  const fs = computeFontSize();
+  curFontPx = fs;
+  stage.style.fontSize = fs + 'px';
+  stage.innerHTML = '';
+  for(const t of LINES){
+    if(t===''){
+      const sp = document.createElement('div');
+      sp.style.height = (fs*0.28)+'px';
+      stage.appendChild(sp);
+    } else {
+      stage.appendChild(buildLine(t));
+    }
+  }
+  applyColors();
+}
+
+/* ---- cycle: advance this unit to its next alternate form ---- */
+function cycleAlt(g){
+  g._step = (g._step + 1) % g._cycle.length;
+  g.style.fontFeatureSettings = g._cycle[g._step];
+  randomizeColors();        // new vivid complementary pair on every tap
+}
+
+/* ---- vivid complementary color pairs ---- */
+let bg = '#0a0a0a', fg = '#ffffff';
+function hsl(h,s,l){ return `hsl(${h} ${s}% ${l}%)`; }
+function randomizeColors(){
+  const h = Math.floor(Math.random()*360);
+  const comp = (h + 180) % 360;
+  const sat = 85 + Math.floor(Math.random()*15);
+  // always: dark color on the BACKGROUND, light color on the TEXT.
+  // hues stay random/vivid, but the dark/light roles never swap.
+  bg = hsl(h,    sat, 14);
+  fg = hsl(comp, sat, 60);
+  applyColors();
+}
+function applyColors(){
+  document.body.style.backgroundColor = bg;
+  document.querySelectorAll('.glyph').forEach(el=>el.style.color = fg);
+}
+
+window.addEventListener('resize', render);
+
+// initial paint now; re-render once the real webfont is ready so the
+// variant dedup measures actual Avant Garde glyph widths.
+render();
+randomizeColors();
+if(document.fonts && document.fonts.ready){
+  document.fonts.ready.then(()=>{ render(); });
+}
+</script>
+</body>
+</html>
