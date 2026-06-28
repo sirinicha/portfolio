@@ -54,6 +54,19 @@
   
   .gallery .img img{width:100%;height:auto;display:block;}
 
+  /* 책 넘기기 캐러셀 */
+  .book{position:relative;width:100%;margin-bottom:clamp(.4rem,1.5vw,1rem);}
+  .book .frame{width:100%;background:#f4f3f0;overflow:hidden;}
+  .book .frame img{width:100%;height:auto;display:block;}
+  .book .nav{position:absolute;top:50%;transform:translateY(-50%);display:flex;justify-content:space-between;width:100%;left:0;pointer-events:none;padding:0 .6rem;}
+  .book .nav button{pointer-events:auto;background:rgba(255,255,255,.82);border:1px solid #e4e2dd;width:34px;height:34px;border-radius:50%;cursor:pointer;font-family:inherit;font-size:14px;color:var(--fg);display:flex;align-items:center;justify-content:center;transition:background .2s,opacity .2s;backdrop-filter:blur(2px);}
+  .book .nav button:hover{background:#fff;}
+  .book .nav button:disabled{opacity:.25;cursor:default;}
+  .book .meta{display:flex;justify-content:space-between;align-items:center;margin-top:.7rem;font-size:10px;text-transform:uppercase;color:var(--dim);}
+
+  .gallery .row{display:flex;gap:clamp(.8rem,2vw,1.4rem);}
+  .gallery .row .img{flex:1;min-height:0;}
+
   .navfoot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;padding:1.4rem 0 2.5rem;font-size:11px;text-transform:uppercase;}
   .navfoot a{color:var(--dim);transition:color .2s;} .navfoot a:hover{color:var(--fg);}
 
@@ -69,50 +82,62 @@
 
   <div class="statusbar">
     <button class="menu-btn" id="menuBtn" aria-label="menu"><span></span><span></span><span></span></button>
-    <div class="nm"><a href="index.html">sieuncha</a> · work 10</div>
+    <div class="nm"><a href="index.html">sieuncha</a> · work 10 — New York, Manhattan</div>
   </div>
 
   <div class="overlay" id="overlay"></div>
   <nav class="menu" id="menu">
     <div class="mtop"><span>index</span><button class="close" id="closeBtn">×</button></div>
     <div class="nav"><a href="index.html">works</a><a href="index.html">cv</a></div>
-    <div class="ygroup"><button class="yhead">2026 <span class="cnt">[1]</span><span class="arw">+</span></button>
-      <div class="ylist"><a class="wk" href="work-01.html">작품 제목 A</a></div></div>
-    <div class="ygroup"><button class="yhead">2025 <span class="cnt">[3]</span><span class="arw">+</span></button>
-      <div class="ylist"><a class="wk" href="work-02.html">작품 제목 B</a><a class="wk" href="work-03.html">작품 제목 C</a><a class="wk" href="work-04.html">작품 제목 D</a></div></div>
-    <div class="ygroup"><button class="yhead">2024 <span class="cnt">[4]</span><span class="arw">+</span></button>
-      <div class="ylist"><a class="wk" href="work-05.html">작품 제목 E</a><a class="wk" href="work-06.html">작품 제목 F</a><a class="wk" href="work-07.html">작품 제목 G</a><a class="wk" href="work-08.html">작품 제목 H</a></div></div>
-    <div class="ygroup"><button class="yhead">2023 <span class="cnt">[2]</span><span class="arw">+</span></button>
-      <div class="ylist"><a class="wk" href="work-09.html">작품 제목 I</a><a class="wk" href="work-10.html">작품 제목 J</a></div></div>
-    <div class="ygroup"><button class="yhead">2022 <span class="cnt">[1]</span><span class="arw">+</span></button>
-      <div class="ylist"><a class="wk" href="work-01.html">작품 제목 K</a></div></div>
+    <div class="ygroup open"><button class="yhead">2026 <span class="cnt">[7]</span><span class="arw">+</span></button>
+      <div class="ylist"><a class="wk" href="work-02.html">망가진 패턴들</a><a class="wk" href="work-03.html">보이지 않는 면 들여다보기</a><a class="wk" href="work-04.html">mixmatch 낱말카드 시리즈1</a><a class="wk" href="work-07.html">mixmatch 낱말카드 시리즈2</a><a class="wk" href="work-08.html">mixmatch 낱말카드 시리즈3</a><a class="wk" href="work-05.html">avant garde font web</a><a class="wk" href="work-06.html">dip&spread festival</a></div></div>
+    <div class="ygroup open"><button class="yhead">2025 <span class="cnt">[4]</span><span class="arw">+</span></button>
+      <div class="ylist"><a class="wk" href="work-01.html">구조와 스킨</a><a class="wk" href="work-09.html">accessor(P)</a><a class="wk" href="work-10.html">New York, Manhattan</a><a class="wk" href="work-11.html">pixel web</a></div></div>
   </nav>
 
   <article class="head">
-    <div class="cat">poster — 2023</div>
-    <h1>작품 제목</h1>
+    <div class="cat">photo book — 2025</div>
+    <h1>New York, Manhattan</h1>
   </article>
 
   <div class="specs">
-    <div class="s"><div class="k">year</div><div class="v">2023</div></div>
-    <div class="s"><div class="k">category</div><div class="v">poster</div></div>
-    <div class="s"><div class="k">client</div><div class="v">Personal</div></div>
+    <div class="s"><div class="k">year</div><div class="v">2025</div></div>
+    <div class="s"><div class="k">category</div><div class="v">photo book</div></div>
+    <div class="s"><div class="k">edition</div><div class="v">2025 First edition</div></div>
+    <div class="s"><div class="k">type</div><div class="v">개인작업</div></div>
   </div>
 
   <div class="gallery">
-    <div class="img">image 01</div>
-    <div class="img">image 02</div>
-    <div class="img tall">image 03</div>
+    <div class="book" id="book">
+      <div class="frame">
+        <img id="bookImg" src="media/photo/photo0.jpg" alt="New York, Manhattan — 표지">
+      </div>
+      <div class="nav">
+        <button id="bookPrev" aria-label="이전 페이지">‹</button>
+        <button id="bookNext" aria-label="다음 페이지">›</button>
+      </div>
+      <div class="meta">
+        <span id="bookLabel">cover</span>
+        <span id="bookCount">1 / 20</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="img"><img src="media/photo/photo1-1.jpeg" alt="New York 필름 사진 01"></div>
+      <div class="img"><img src="media/photo/photo1-2.jpeg" alt="New York 필름 사진 02"></div>
+      <div class="img"><img src="media/photo/photo1-3.jpeg" alt="New York 필름 사진 03"></div>
+    </div>
   </div>
 
   
   <div class="piece-info">
-    <p class="desc">여기에 작품 설명을 적어주세요. 프로젝트의 배경, 컨셉, 작업 과정 등을 자유롭게 서술할 수 있습니다.</p>
+    <p class="desc">〈New York, Manhattan — 2025 First edition〉 뉴욕 여행을 하며 찍은 필름 사진들을 담은 사진집.</p>
+    <p class="desc" style="margin-top:1rem;">2025, 개인작업</p>
   </div>
 
   <div class="navfoot">
     <a href="work-09.html">&lt;&lt; previous</a>
-    <a href="work-01.html">next &gt;&gt;</a>
+    <a href="work-11.html">next &gt;&gt;</a>
   </div>
 
 <script>
@@ -121,6 +146,32 @@
   document.getElementById('closeBtn').onclick=()=>{menu.classList.remove('open');ov.classList.remove('show');};
   ov.onclick=()=>{menu.classList.remove('open');ov.classList.remove('show');};
   document.querySelectorAll('.yhead').forEach(function(b){b.addEventListener('click',function(){b.parentElement.classList.toggle('open');});});
+
+  // 사진집 넘기기 (표지 photo0 + 내지 photo1 ~ photo19, 모두 jpg)
+  (function(){
+    var total=20; // photo0 ~ photo19
+    var i=0;
+    var img=document.getElementById('bookImg'),
+        prev=document.getElementById('bookPrev'),
+        next=document.getElementById('bookNext'),
+        label=document.getElementById('bookLabel'),
+        count=document.getElementById('bookCount');
+    function render(){
+      img.src='media/photo/photo'+i+'.jpg';
+      img.alt = i===0 ? 'New York, Manhattan — 표지' : 'New York, Manhattan — 내지 '+i;
+      label.textContent = i===0 ? 'cover' : 'p. '+i;
+      count.textContent = (i+1)+' / '+total;
+      prev.disabled = (i===0);
+      next.disabled = (i===total-1);
+    }
+    prev.onclick=function(){ if(i>0){ i--; render(); } };
+    next.onclick=function(){ if(i<total-1){ i++; render(); } };
+    document.addEventListener('keydown',function(e){
+      if(e.key==='ArrowLeft') prev.onclick();
+      if(e.key==='ArrowRight') next.onclick();
+    });
+    render();
+  })();
   // iframe(오른쪽 패널) 안에서 열렸을 땐 상단바/메뉴 숨김
   if(window.self!==window.top){ document.documentElement.classList.add('in-frame'); }
 

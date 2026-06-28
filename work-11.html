@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>work 03 — sieuncha</title>
+<title>work 11 — sieuncha</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -53,6 +53,8 @@
   .gallery .img{width:100%;background:#f4f3f0;display:flex;align-items:center;justify-content:center;color:#cbc8c1;font-size:11px;text-transform:uppercase;min-height:120px;}
   
   .gallery .img img{width:100%;height:auto;display:block;}
+  .gallery .row{display:flex;gap:clamp(.8rem,2vw,1.4rem);}
+  .gallery .row .img{flex:1;min-height:0;}
 
   .navfoot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;padding:1.4rem 0 2.5rem;font-size:11px;text-transform:uppercase;}
   .navfoot a{color:var(--dim);transition:color .2s;} .navfoot a:hover{color:var(--fg);}
@@ -60,6 +62,8 @@
   /* iframe(패널) 안에서 열렸을 때 */
   html.in-frame .statusbar{display:none;}
   html.in-frame body{padding-top:.5rem;}
+
+  .piece-info{max-width:640px;color:#6a675f;font-size:13px;line-height:1.7;padding-bottom:clamp(1rem,3vw,2rem);}
 </style>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 </head>
@@ -67,7 +71,7 @@
 
   <div class="statusbar">
     <button class="menu-btn" id="menuBtn" aria-label="menu"><span></span><span></span><span></span></button>
-    <div class="nm"><a href="index.html">sieuncha</a> · work 03</div>
+    <div class="nm"><a href="index.html">sieuncha</a> · work 11 — pixel web</div>
   </div>
 
   <div class="overlay" id="overlay"></div>
@@ -81,33 +85,34 @@
   </nav>
 
   <article class="head">
-    <div class="cat">photogram — 2026</div>
-    <h1>보이지 않는 면 들여다보기</h1>
-   
+    <div class="cat">web — 2025</div>
+    <h1>pixel web</h1>
   </article>
 
   <div class="specs">
-    <div class="s"><div class="k">year</div><div class="v">2065</div></div>
-    <div class="s"><div class="k">category</div><div class="v">photogram</div></div>
+    <div class="s"><div class="k">year</div><div class="v">2025</div></div>
+    <div class="s"><div class="k">category</div><div class="v">web · poster</div></div>
+    <div class="s"><div class="k">tools</div><div class="v">HTML · CSS · JavaScript</div></div>
     <div class="s"><div class="k">client</div><div class="v">Personal</div></div>
   </div>
 
   <div class="gallery">
-    <img src="media/stillimage.jpg" alt="stillimage">
+    <div class="img"><img src="media/brush1.jpg" alt="pixel web 01"></div>
+    <div class="row">
+      <div class="img"><img src="media/brush2.jpg" alt="pixel web 02"></div>
+      <div class="img"><img src="media/brush3.jpg" alt="pixel web 03"></div>
+    </div>
   </div>
-   <p class="desc">보이지 않는 면에 대한 호기심에서 출발했다. 안쪽 면은 안쪽에
-있을 때에만 유의미하다. 그것을 강제로 드러내는 순간, 안쪽 면은
-더 이상 안쪽이 아니라 하나의 단면이 되어 버린다. 드러나지
-않은 그것이 거기에 있다는 것을 확신할 수 있을까. 접힌 면이
-있는 종이에 빛을 투과시켜, 안쪽 면의 흔적을 인화지에 남겼다.
-빛은 종이의 표면이 아니라 접힘이 만들어낸 깊이를 통과하며
-보이지 않던 면의 윤곽을 기록한다. 드러내지 않은 채로 안쪽 면을
-드러내는 것. 이 작업은 감춰진 것을 훼손하지 않으면서 그 존재를
-증명하려는 시도다.</p>
+
+  
+  <div class="piece-info">
+    <p class="desc">픽셀 단위로 이미지를 그릴 수 있는 픽셀 에디터 웹. 격자 위에서 한 칸씩 색을 찍어 이미지를 만드는 단순한 규칙만으로, 누구나 손쉽게 픽셀 드로잉을 할 수 있도록 만든 작업이다. 그리고 이 에디터로 직접 제작한 포스터를 함께 담았다.</p>
+    <p class="desc" style="margin-top:1rem;">2025, 개인작업 · 기획 · 개발 · 디자인</p>
+  </div>
 
   <div class="navfoot">
-    <a href="work-02.html">&lt;&lt; previous</a>
-    <a href="work-04.html">next &gt;&gt;</a>
+    <a href="work-10.html">&lt;&lt; previous</a>
+    <a href="work-01.html">next &gt;&gt;</a>
   </div>
 
 <script>

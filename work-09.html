@@ -53,6 +53,8 @@
   .gallery .img{width:100%;background:#f4f3f0;display:flex;align-items:center;justify-content:center;color:#cbc8c1;font-size:11px;text-transform:uppercase;min-height:120px;}
   
   .gallery .img img{width:100%;height:auto;display:block;}
+  .gallery .row{display:flex;gap:clamp(.8rem,2vw,1.4rem);}
+  .gallery .row .img{flex:1;min-height:0;}
 
   .navfoot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;padding:1.4rem 0 2.5rem;font-size:11px;text-transform:uppercase;}
   .navfoot a{color:var(--dim);transition:color .2s;} .navfoot a:hover{color:var(--fg);}
@@ -69,45 +71,54 @@
 
   <div class="statusbar">
     <button class="menu-btn" id="menuBtn" aria-label="menu"><span></span><span></span><span></span></button>
-    <div class="nm"><a href="index.html">sieuncha</a> · work 09</div>
+    <div class="nm"><a href="index.html">sieuncha</a> · work 09 — accessor(P)</div>
   </div>
 
   <div class="overlay" id="overlay"></div>
   <nav class="menu" id="menu">
     <div class="mtop"><span>index</span><button class="close" id="closeBtn">×</button></div>
     <div class="nav"><a href="index.html">works</a><a href="index.html">cv</a></div>
-    <div class="ygroup"><button class="yhead">2026 <span class="cnt">[1]</span><span class="arw">+</span></button>
-      <div class="ylist"><a class="wk" href="work-01.html">작품 제목 A</a></div></div>
-    <div class="ygroup"><button class="yhead">2025 <span class="cnt">[3]</span><span class="arw">+</span></button>
-      <div class="ylist"><a class="wk" href="work-02.html">작품 제목 B</a><a class="wk" href="work-03.html">작품 제목 C</a><a class="wk" href="work-04.html">작품 제목 D</a></div></div>
-    <div class="ygroup"><button class="yhead">2024 <span class="cnt">[4]</span><span class="arw">+</span></button>
-      <div class="ylist"><a class="wk" href="work-05.html">작품 제목 E</a><a class="wk" href="work-06.html">작품 제목 F</a><a class="wk" href="work-07.html">작품 제목 G</a><a class="wk" href="work-08.html">작품 제목 H</a></div></div>
-    <div class="ygroup"><button class="yhead">2023 <span class="cnt">[2]</span><span class="arw">+</span></button>
-      <div class="ylist"><a class="wk" href="work-09.html">작품 제목 I</a><a class="wk" href="work-10.html">작품 제목 J</a></div></div>
-    <div class="ygroup"><button class="yhead">2022 <span class="cnt">[1]</span><span class="arw">+</span></button>
-      <div class="ylist"><a class="wk" href="work-01.html">작품 제목 K</a></div></div>
+    <div class="ygroup open"><button class="yhead">2026 <span class="cnt">[7]</span><span class="arw">+</span></button>
+      <div class="ylist"><a class="wk" href="work-02.html">망가진 패턴들</a><a class="wk" href="work-03.html">보이지 않는 면 들여다보기</a><a class="wk" href="work-04.html">mixmatch 낱말카드 시리즈1</a><a class="wk" href="work-07.html">mixmatch 낱말카드 시리즈2</a><a class="wk" href="work-08.html">mixmatch 낱말카드 시리즈3</a><a class="wk" href="work-05.html">avant garde font web</a><a class="wk" href="work-06.html">dip&spread festival</a></div></div>
+    <div class="ygroup open"><button class="yhead">2025 <span class="cnt">[4]</span><span class="arw">+</span></button>
+      <div class="ylist"><a class="wk" href="work-01.html">구조와 스킨</a><a class="wk" href="work-09.html">accessor(P)</a><a class="wk" href="work-10.html">New York, Manhattan</a><a class="wk" href="work-11.html">pixel web</a></div></div>
   </nav>
 
   <article class="head">
-    <div class="cat">editorial — 2023</div>
-    <h1>작품 제목</h1>
+    <div class="cat">exhibition — 2025</div>
+    <h1>accessor(P)</h1>
   </article>
 
   <div class="specs">
-    <div class="s"><div class="k">year</div><div class="v">2023</div></div>
-    <div class="s"><div class="k">category</div><div class="v">editorial</div></div>
-    <div class="s"><div class="k">client</div><div class="v">Personal</div></div>
+    <div class="s"><div class="k">year</div><div class="v">2025</div></div>
+    <div class="s"><div class="k">category</div><div class="v">exhibition</div></div>
+    <div class="s"><div class="k">role</div><div class="v">기획 · 제작 · 참여</div></div>
+    <div class="s"><div class="k">type</div><div class="v">팀 작업 (기여도 50%)</div></div>
   </div>
 
   <div class="gallery">
-    <div class="img">image 01</div>
-    <div class="img">image 02</div>
-    <div class="img tall">image 03</div>
+    <div class="img"><img src="media/2/ac1-8.jpg" alt="accessor(P) 01"></div>
+    <div class="img"><img src="media/2/ac1-9.jpg" alt="accessor(P) 02"></div>
+    <div class="img"><img src="media/2/ac1-10.jpg" alt="accessor(P) 03"></div>
+    <div class="img"><img src="media/2/ac1-11.jpg" alt="accessor(P) 04"></div>
+    <div class="img"><img src="media/2/ac1-12.jpg" alt="accessor(P) 05"></div>
+    <div class="img"><img src="media/2/ac1-7.jpg" alt="accessor(P) 06"></div>
+    <div class="row">
+      <div class="img"><img src="media/2/ac1-1.jpg" alt="accessor(P) 07"></div>
+      <div class="img"><img src="media/2/ac1-2.jpg" alt="accessor(P) 08"></div>
+      <div class="img"><img src="media/2/ac1-3.jpg" alt="accessor(P) 09"></div>
+    </div>
+    <div class="row">
+      <div class="img"><img src="media/2/ac1-4.jpg" alt="accessor(P) 10"></div>
+      <div class="img"><img src="media/2/ac1-5.jpg" alt="accessor(P) 11"></div>
+      <div class="img"><img src="media/2/ac1-6.jpg" alt="accessor(P) 12"></div>
+    </div>
   </div>
 
   
   <div class="piece-info">
-    <p class="desc">여기에 작품 설명을 적어주세요. 프로젝트의 배경, 컨셉, 작업 과정 등을 자유롭게 서술할 수 있습니다.</p>
+    <p class="desc">‘accessor’는 ‘고백하다, 고하다’를 뜻하는 라틴어 confiteri에서 파생된 confessor(고해자)에서 착안한 말로, 타인의 숨겨진 감정과 비밀을 받아들여 새로운 형태로 전환하는 상징적 존재로 기능한다. 본 전시에서 ‘고해’는 종교적 속죄가 아니라 스스로를 드러내고 새롭게 장식하는 미학적 실천이며, 감춰졌던 상처와 욕망은 ‘액세서리(accessory)’라는 이름 아래 시각적 오브제로 재탄생한다. 장식이 곧 꾸밈이라는 통념을 의도적으로 전복하여, ‘accessor’는 장식을 매개로 감정을 드러내고 내면의 페르소나(Persona, P)를 외부로 확장하는 주체가 된다. 팀원들은 각자의 ‘accessor’로서 서로의 비밀을 나누고 그것을 시각 언어로 변환하며, 개인의 취약성을 공유 가능한 서사이자 다층적 의미를 지닌 오브제로 다시 태어나게 한다.</p>
+    <p class="desc" style="margin-top:1rem;">2025, 팀 작업, 기여도: 50%</p>
   </div>
 
   <div class="navfoot">
